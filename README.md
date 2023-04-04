@@ -11,5 +11,5 @@ You should implement features using the vuetify library.
 * Merge the pull requests into your repo so the repo can be run and tested.
 
 ## What not to do
-* Open a pull request to the main repo
+* Open a pull request to this repo
 
