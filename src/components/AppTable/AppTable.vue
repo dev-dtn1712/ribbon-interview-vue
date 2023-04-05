@@ -29,7 +29,7 @@
     data () {
       return {
         search: '',
-        sortBy: 'fat',
+        sortBy: 'full_name',
         sortDesc: false,
       }
     },
