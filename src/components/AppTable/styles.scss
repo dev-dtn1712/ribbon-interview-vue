@@ -1,0 +1,13 @@
+.custom-header {
+  color: #3a3a40de !important;
+
+  .v-data-table-header {
+    background-color: #3a3a400d;
+  }
+
+  tbody {
+    tr:hover {
+      background-color: #3a3a404d !important;
+    }
+  }
+}
