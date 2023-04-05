@@ -8,6 +8,8 @@
       </v-container>
     </v-app-bar>
 
+    <Snackbar />
+
     <v-main>
       <section id="hero">
         <v-sheet class="d-flex align-center pb-16" color="grey-darken-3">
@@ -65,27 +67,11 @@
                 </v-responsive>
               </v-col>
               <v-sheet width="400" class="mx-auto">
-                <v-form
-                  v-model="valid"
-                  validate-on="submit"
-                  @submit.prevent="submit"
+                <app-form
+                  :items="donors?.data"
+                  :loading="donorListLoading"
                 >
-                  <v-textarea
-                    v-model="message"
-                    :rules="messageRules"
-                    label="Message"
-                  ></v-textarea>
-                  <v-text-field
-                    v-model="email"
-                    :rules="emailRules"
-                    label="Email"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="donor_id"
-                    label="Donor Id"
-                  ></v-text-field>
-                  <v-btn type="submit" block class="mt-2">Send</v-btn>
-                </v-form>
+                </app-form>
               </v-sheet>
             </v-row>
           </v-container>
@@ -108,12 +94,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import AppTable from './components/AppTable/AppTable.vue';
+import AppForm from './components/Form/AppForm.vue';
+import Snackbar from './components/Snackbar/Snackbar.vue';
 
 export default {
   name: "App",
 
   components: {
     AppTable,
+    AppForm,
+    Snackbar
   },
   data() {
     return {
@@ -123,24 +113,6 @@ export default {
         { text: 'Total Donations', value: 'total_donations' },
         { text: 'First Donation', value: 'first_donation' },
       ],
-      valid: false,
-      email: "",
-      donor_id: "",
-      message: "",
-      emailRules: [
-        (value) => {
-          if (value) return true;
-
-          return "E-mail is required.";
-        },
-      ],
-      messageRules: [
-        (value) => {
-          if (value) return true;
-
-          return "Message is required.";
-        },
-      ],
     };
   },
   mounted() {
@@ -149,9 +121,6 @@ export default {
   methods: {
     async fetchDonors() {
       this.$store.dispatch('donorListAction');
-    },
-    async submit() {
-      // Send message to server.
     },
   },
   computed: {
