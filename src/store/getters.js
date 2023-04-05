@@ -1,5 +1,5 @@
-import appGetter from './modules/app/getters';
+import appGetter from './modules/app/getters'
 
 export default {
-  ...appGetter
-};
+  ...appGetter,
+}

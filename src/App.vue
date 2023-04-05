@@ -45,7 +45,7 @@
                   :items="donors?.data || []"
                   :loading="donorListLoading"
                   :headers="headers"
-                > 
+                >
                 </app-table>
               </v-col>
             </v-row>
@@ -67,10 +67,7 @@
                 </v-responsive>
               </v-col>
               <v-sheet width="400" class="mx-auto">
-                <app-form
-                  :items="donors?.data"
-                  :loading="donorListLoading"
-                >
+                <app-form :items="donors?.data" :loading="donorListLoading">
                 </app-form>
               </v-sheet>
             </v-row>
@@ -93,17 +90,17 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import AppTable from './components/AppTable/AppTable.vue';
-import AppForm from './components/Form/AppForm.vue';
-import Snackbar from './components/Snackbar/Snackbar.vue';
+import AppTable from './components/AppTable/AppTable.vue'
+import AppForm from './components/Form/AppForm.vue'
+import Snackbar from './components/Snackbar/Snackbar.vue'
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     AppTable,
     AppForm,
-    Snackbar
+    Snackbar,
   },
   data() {
     return {
@@ -113,21 +110,21 @@ export default {
         { text: 'Total Donations', value: 'total_donations' },
         { text: 'First Donation', value: 'first_donation' },
       ],
-    };
+    }
   },
   mounted() {
-    this.fetchDonors();
+    this.fetchDonors()
   },
   methods: {
     async fetchDonors() {
-      this.$store.dispatch('donorListAction');
+      this.$store.dispatch('donorListAction')
     },
   },
   computed: {
     ...mapGetters({
       donors: 'donors',
-      donorListLoading: 'donorListLoading'
+      donorListLoading: 'donorListLoading',
     }),
   },
-};
+}
 </script>

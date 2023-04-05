@@ -1,9 +1,5 @@
 <template>
-  <v-form
-    v-model="valid"
-    validate-on="submit"
-    @submit.prevent="submit"
-  >
+  <v-form v-model="valid" validate-on="submit" @submit.prevent="submit">
     <v-textarea
       v-model="form.message"
       :rules="messageRules"
@@ -41,50 +37,47 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: [
-    'items',
-    'loading',
-  ],
-  name: "App",
+  props: ['items', 'loading'],
+  name: 'App',
   data() {
     return {
       valid: false,
       form: {
-        message: "",
-        email: "",
-        donor_id: "",
+        message: '',
+        email: '',
+        donor_id: '',
       },
-      emailRules: [
-        (value) => !!value || "Email is required.",
-      ],
+      emailRules: [(value) => !!value || 'Email is required.'],
       messageRules: [
         (value) => !!value || 'Message is required',
-        (value) => (value && value.length >= 15) || 'Message must be at least 15 characters',
+        (value) =>
+          (value && value.length >= 15) ||
+          'Message must be at least 15 characters',
       ],
-    };
+    }
   },
   methods: {
     async submit() {
-      const formData = new FormData();
-      formData.append("email", this.form.email);
-      formData.append("donor_id", this.form.donor_id);
-      formData.append("message", this.form.message);
-      await this.$store.dispatch('sendDonorMessageAction', { formData });
-      this.form.message = '';
-      this.form.email = '';
-      this.form.donor_id = '';
+      const formData = new FormData()
+      formData.append('email', this.form.email)
+      formData.append('donor_id', this.form.donor_id)
+      formData.append('message', this.form.message)
+      await this.$store.dispatch('sendDonorMessageAction', { formData })
+      this.form.message = ''
+      this.form.email = ''
+      this.form.donor_id = ''
     },
     updateFormField(field, event) {
-      this.form[field] = event;
+      this.form[field] = event
       if (field === 'email') {
-        this.form['donor_id'] = event.id;
+        this.form['donor_id'] = event.id
       }
-    }
+    },
   },
   computed: {
     ...mapGetters({
-      sendingMessageLoading: 'sendingMessageLoading'
+      sendingMessageLoading: 'sendingMessageLoading',
     }),
   },
-};
+}
 </script>

@@ -1,5 +1,5 @@
-import appMutations from './modules/app/mutations';
+import appMutations from './modules/app/mutations'
 
 export default {
   ...appMutations,
-};
+}

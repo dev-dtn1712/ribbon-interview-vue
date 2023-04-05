@@ -1,7 +1,7 @@
-import appState from './modules/app/state';
+import appState from './modules/app/state'
 
 const state = {
   ...appState,
 }
 
-export default state;
+export default state

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Snackbar',
@@ -19,13 +19,13 @@ export default {
       sendSnackMessage: 'sendSnackMessage',
     }),
     openSnack() {
-      return this.sendSnackMessage.show;
+      return this.sendSnackMessage.show
     },
     snackVariant() {
-      return this.sendSnackMessage.variant;
+      return this.sendSnackMessage.variant
     },
     snackMessage() {
-      return this.sendSnackMessage.message;
+      return this.sendSnackMessage.message
     },
   },
 }
