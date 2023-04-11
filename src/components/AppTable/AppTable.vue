@@ -3,7 +3,8 @@
     <v-text-field v-model="search" label="Search" dense outlined />
     <v-data-table
       :headers="headers"
-      :items="filteredItems"
+      :items="items"
+      :search="search"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
       :loading="loading"
@@ -28,20 +29,6 @@ export default {
       sortBy: 'full_name',
       sortDesc: false,
     }
-  },
-  computed: {
-    filteredItems() {
-      return this.items.filter((donor) =>
-        Object.values(donor).some(
-          (fieldValue) =>
-            fieldValue &&
-            fieldValue
-              .toString()
-              .toLowerCase()
-              .includes(this.search.toLowerCase())
-        )
-      )
-    },
   },
   methods: {
     formatCurrency(amount) {

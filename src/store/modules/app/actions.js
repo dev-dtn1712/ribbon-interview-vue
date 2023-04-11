@@ -15,6 +15,14 @@ const actions = {
     }
   },
 
+  resetDonorMessageAction(context) {
+    context.commit('sendSnackMessage', {
+      show: false,
+      variant: '',
+      message: '',
+    })
+  },
+
   async sendDonorMessageAction(context, payload) {
     const { formData } = payload
     const donorId = formData.get('donor_id')
@@ -36,14 +44,6 @@ const actions = {
         variant: 'success',
         message: 'Thankyou for your message. It has been sent.',
       })
-
-      setTimeout(() => {
-        context.commit('sendSnackMessage', {
-          show: false,
-          variant: '',
-          message: '',
-        })
-      }, 2000)
     } catch (e) {
       context.commit('sendingMessageLoading', false)
       context.commit('sendSnackMessage', {
@@ -52,14 +52,6 @@ const actions = {
         message:
           'There was an error trying to sending your message. Please try again later',
       })
-
-      setTimeout(() => {
-        context.commit('sendSnackMessage', {
-          show: false,
-          variant: '',
-          message: '',
-        })
-      }, 2000)
     }
   },
 }
