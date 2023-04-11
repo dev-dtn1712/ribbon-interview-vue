@@ -8,6 +8,8 @@
       </v-container>
     </v-app-bar>
 
+    <Snackbar />
+
     <v-main>
       <section id="hero">
         <v-sheet class="d-flex align-center pb-16" color="grey-darken-3">
@@ -39,24 +41,12 @@
             </v-row>
             <v-row>
               <v-col>
-                <table v-if="donors">
-                  <thead>
-                    <tr>
-                      <th class="text-left">Name</th>
-                      <th class="text-left">Email</th>
-                      <th class="text-left">Total Donations</th>
-                      <th class="text-left">First Donation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in donors.data" :key="item.id">
-                      <td>{{ item.full_name }}</td>
-                      <td>{{ item.email }}</td>
-                      <td>{{ item.total_donations }}</td>
-                      <td>{{ item.first_donation }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <app-table
+                  :items="donors?.data || []"
+                  :loading="donorListLoading"
+                  :headers="headers"
+                >
+                </app-table>
               </v-col>
             </v-row>
           </v-container>
@@ -77,27 +67,8 @@
                 </v-responsive>
               </v-col>
               <v-sheet width="400" class="mx-auto">
-                <v-form
-                  v-model="valid"
-                  validate-on="submit"
-                  @submit.prevent="submit"
-                >
-                  <v-textarea
-                    v-model="message"
-                    :rules="messageRules"
-                    label="Message"
-                  ></v-textarea>
-                  <v-text-field
-                    v-model="email"
-                    :rules="emailRules"
-                    label="Email"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="donor_id"
-                    label="Donor Id"
-                  ></v-text-field>
-                  <v-btn type="submit" block class="mt-2">Send</v-btn>
-                </v-form>
+                <app-form :items="donors?.data" :loading="donorListLoading">
+                </app-form>
               </v-sheet>
             </v-row>
           </v-container>
@@ -118,42 +89,42 @@
 </template>
 
 <script>
-import axios from "axios";
-export default {
-  name: "App",
+import { mapGetters } from 'vuex'
+import AppTable from './components/AppTable/AppTable.vue'
+import AppForm from './components/Form/AppForm.vue'
+import Snackbar from './components/Snackbar/Snackbar.vue'
 
+export default {
+  name: 'App',
+
+  components: {
+    AppTable,
+    AppForm,
+    Snackbar,
+  },
   data() {
     return {
-      donors: null,
-      valid: false,
-      email: "",
-      donor_id: "",
-      message: "",
-      emailRules: [
-        (value) => {
-          if (value) return true;
-
-          return "E-mail is required.";
-        },
+      headers: [
+        { text: 'Name', value: 'full_name' },
+        { text: 'Email', value: 'email' },
+        { text: 'Total Donations', value: 'total_donations' },
+        { text: 'First Donation', value: 'first_donation' },
       ],
-      messageRules: [
-        (value) => {
-          if (value) return true;
-
-          return "Message is required.";
-        },
-      ],
-    };
+    }
   },
   mounted() {
-    axios
-      .get("https://interview.ribbon.giving/api/donors")
-      .then((response) => (this.donors = response.data));
+    this.fetchDonors()
   },
   methods: {
-    async submit() {
-      // Send message to server.
+    async fetchDonors() {
+      this.$store.dispatch('donorListAction')
     },
   },
-};
+  computed: {
+    ...mapGetters({
+      donors: 'donors',
+      donorListLoading: 'donorListLoading',
+    }),
+  },
+}
 </script>
